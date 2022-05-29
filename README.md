@@ -1,15 +1,34 @@
-# umi project
+# mobx
+```js
+@testable
+class Person{
 
-## Getting Started
+}
 
-Install dependencies,
+function testable(target:Person) {
+  target.testable = true;
+}
 
-```bash
-$ yarn
+console.log(Person.testable)
 ```
+# 装饰器
+```js
+function logger(target:any,key:string,descriptor:any) {
+  let oldValue = descriptor.value;
+  descriptor.value = function() {
+    console.log(`${key}函数${Array.from(arguments)}`)
+    return oldValue.apply(this,arguments);
+  }
+}
 
-Start the dev server,
 
-```bash
-$ yarn start
+class Calculator {
+  @logger
+  add(a: number, b: number) {
+    return a + b
+  }
+}
+
+const c1 = new Calculator();
+console.log(c1.add(1, 2));
 ```
